@@ -25,8 +25,7 @@ import React, { Component } from 'react'
 import { Editor, EditorState, RichUtils, DefaultDraftBlockRenderMap } from 'draft-js'
 import type ContentBlock from 'draft-js/lib/ContentBlock'
 import {
-  blockRenderMap, blockStyleFn, CheckableListItem, onTab, updateBlockMetadata,
-  CHECKABLE_LIST_ITEM, UNORDERED_LIST_ITEM, ORDERED_LIST_ITEM
+  blockRenderMap, blockStyleFn, CheckableListItem, onTab, updateBlockMetadata, CHECKABLE_LIST_ITEM
 } from 'draft-js-checkable-list-item'
 import 'draft-js/dist/Draft.css'
 import 'draft-js-checkable-list-item/lib/CheckableListItem.css'
@@ -34,7 +33,15 @@ import 'draft-js-checkable-list-item/lib/CheckableListItem.css'
 export default class App extends Component {
   blockRendererFn = (block: ContentBlock) => {
     if (block.getType() === CHECKABLE_LIST_ITEM) {
-      return this.renderCheckableListItem(block)
+      return {
+        component: CheckableListItem,
+        props: {
+          updateMetadataFn: metadata => this.setState({
+            editorState: updateBlockMetadata(this.state.editorState, block.getKey(), metadata)
+          }),
+          checked: !!block.getData().get('checked'),
+        },
+      }
     }
     return null
   }
@@ -63,8 +70,6 @@ export default class App extends Component {
     return (
       <div>
         <div>
-          <span onMouseDown={this.createMouseDownHandler(UNORDERED_LIST_ITEM)}>UL</span>
-          <span onMouseDown={this.createMouseDownHandler(ORDERED_LIST_ITEM)}>OL</span>
           <span onMouseDown={this.createMouseDownHandler(CHECKABLE_LIST_ITEM)}>✔</span>
         </div>
         <Editor
@@ -79,24 +84,10 @@ export default class App extends Component {
     )
   }
 
-  toggleBlockType(type: string) {
-    this.changeEditorState(RichUtils.toggleBlockType(this.state.editorState, type))
-  }
-
   createMouseDownHandler(type: string): func {
     return (ev: SyntheticEvent) => {
       ev.preventDefault()
-      this.toggleBlockType(type)
-    }
-  }
-
-  renderCheckableListItem(block: ContentBlock): object {
-    return {
-      component: CheckableListItem,
-      props: {
-        updateMetadataFn: (...args) => this.setState({ editorState: updateBlockMetadata(this.state.editorState, ...args) }),
-        checked: !!block.getData().get('checked'),
-      },
+      this.changeEditorState(RichUtils.toggleBlockType(this.state.editorState, type))
     }
   }
 
