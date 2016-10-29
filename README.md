@@ -1,6 +1,6 @@
 # draft-js-checkable-list-item
 
-[![Build Status][travis-image]][travis-url]
+[![CircleCI](https://circleci.com/gh/sugarshin/draft-js-checkable-list-item/tree/master.svg?style=svg&circle-token=b4cb74ab6a5a470fd7a6752d755ecb271db448e5)](https://circleci.com/gh/sugarshin/draft-js-checkable-list-item/tree/master)
 [![Dependency Status][david-image]][david-url]
 [![Devdependency Status][david-dev-image]][david-dev-url]
 [![npm version][npm-image]][npm-url]
@@ -126,8 +126,6 @@ export default class App extends Component {
 
 [npm-image]: https://img.shields.io/npm/v/draft-js-checkable-list-item.svg?style=flat-square
 [npm-url]: https://www.npmjs.org/package/draft-js-checkable-list-item
-[travis-image]: https://img.shields.io/travis/sugarshin/draft-js-checkable-list-item/master.svg?branch=master&style=flat-square
-[travis-url]: https://travis-ci.org/sugarshin/draft-js-checkable-list-item
 [david-image]: https://david-dm.org/sugarshin/draft-js-checkable-list-item.svg?style=flat-square
 [david-url]: https://david-dm.org/sugarshin/draft-js-checkable-list-item
 [david-dev-image]: https://david-dm.org/sugarshin/draft-js-checkable-list-item/dev-status.svg?style=flat-square

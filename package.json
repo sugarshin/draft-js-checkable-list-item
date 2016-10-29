@@ -25,7 +25,7 @@
     "clean:build": "if [ -d build ]; then rm -rf build; fi",
     "preghpages": "npm run clean:build; mkdir -p build && npm run favicon",
     "ghpages": "NODE_ENV=production webpack --progress",
-    "postghpages": "gh-pages -x -m 'Update [ci skip]' -d build -r https://$GITHUB_DEPLOY_KEY@github.com/sugarshin/draft-js-checkable-list-item.git",
+    "postghpages": "gh-pages -x -m 'Update [ci skip]' -d build -r https://github.com/sugarshin/draft-js-checkable-list-item.git",
     "prepublish": "npm test && npm run compile"
   },
   "repository": {
