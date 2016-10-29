@@ -1,6 +1,8 @@
 # draft-js-checkable-list-item
 
 [![CircleCI](https://circleci.com/gh/sugarshin/draft-js-checkable-list-item/tree/master.svg?style=svg&circle-token=b4cb74ab6a5a470fd7a6752d755ecb271db448e5)](https://circleci.com/gh/sugarshin/draft-js-checkable-list-item/tree/master)
+[![Coverage Status](https://coveralls.io/repos/github/sugarshin/draft-js-checkable-list-item/badge.svg?branch=master)](https://coveralls.io/github/sugarshin/draft-js-checkable-list-item?branch=master)
+
 [![Dependency Status][david-image]][david-url]
 [![Devdependency Status][david-dev-image]][david-dev-url]
 [![npm version][npm-image]][npm-url]

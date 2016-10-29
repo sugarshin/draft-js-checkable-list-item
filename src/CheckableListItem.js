@@ -4,15 +4,14 @@ import { EditorBlock } from 'draft-js'
 export type Props = {
   offsetKey: string,
   blockProps: { updateMetadataFn: func, checked: boolean },
-  block: object,
 }
 
 export default class CheckableListItem extends Component {
   props: Props
 
   toggleChecked = () => {
-    const { blockProps: { updateMetadataFn, checked }, block } = this.props
-    updateMetadataFn(block.getKey(), { checked: !checked })
+    const { blockProps: { updateMetadataFn, checked } } = this.props
+    updateMetadataFn({ checked: !checked })
   }
 
   render() {
