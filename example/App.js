@@ -98,7 +98,9 @@ export default class App extends Component {
     return {
       component: CheckableListItem,
       props: {
-        updateMetadataFn: (...args) => this.setState({ editorState: updateBlockMetadata(this.state.editorState, ...args) }),
+        updateMetadataFn: metadata => this.setState({
+          editorState: updateBlockMetadata(this.state.editorState, block.getKey(), metadata)
+        }),
         checked: !!block.getData().get('checked'),
       },
     }

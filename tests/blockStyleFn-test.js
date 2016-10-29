@@ -7,4 +7,8 @@ describe('blockStyleFn', () => {
     const block = new ContentBlock({ type: CHECKABLE_LIST_ITEM })
     expect(blockStyleFn(block)).toBe(CHECKABLE_LIST_ITEM)
   })
+  it('noop', () => {
+    const block = new ContentBlock({ type: 'unstyled' })
+    expect(blockStyleFn(block)).toBeUndefined()
+  })
 })
