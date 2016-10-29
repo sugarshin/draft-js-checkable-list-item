@@ -7,6 +7,17 @@
   },
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "jest": true
+  },
+  "rules": {
+    "semi": [2, "never"],
+    "comma-dangle": [2, {
+      "arrays": "only-multiline",
+      "objects": "only-multiline",
+      "imports": "never",
+      "exports": "never",
+      "functions": "never"
+    }]
   }
 }

@@ -18,9 +18,10 @@
     "prebuild": "npm run clean:lib; mkdir -p lib",
     "compile": "babel -d lib src && stylus src -c -o lib",
     "check": "npm run lint && npm run flow",
-    "lint": "eslint src",
+    "lint": "eslint src tests",
     "type": "flow",
-    "test": "npm run lint && npm run type",
+    "spec": "jest",
+    "test": "npm run lint && npm run type && npm run spec",
     "favicon": "curl https://sugarshin.net/favicon.ico > build/favicon.ico",
     "clean:build": "if [ -d build ]; then rm -rf build; fi",
     "preghpages": "npm run clean:build; mkdir -p build && npm run favicon",
@@ -48,6 +49,7 @@
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.0",
     "babel-eslint": "^7.1.0",
+    "babel-jest": "^16.0.0",
     "babel-loader": "^6.2.7",
     "babel-plugin-transform-class-properties": "^6.18.0",
     "babel-plugin-transform-flow-strip-types": "^6.18.0",
@@ -64,6 +66,7 @@
     "gh-pages": "^0.11.0",
     "html-webpack-plugin": "^2.24.0",
     "immutable": "^3.8.1",
+    "jest": "^16.0.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-ghfork": "^0.3.5",
@@ -73,5 +76,8 @@
     "stylus-loader": "^2.3.1",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
+  },
+  "jest": {
+    "testRegex": "/tests/.*-test\\.js$"
   }
 }
