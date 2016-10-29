@@ -20,14 +20,16 @@
     "check": "npm run lint && npm run flow",
     "lint": "eslint src tests",
     "type": "flow",
-    "spec": "jest",
-    "test": "npm run lint && npm run type && npm run spec",
+    "jest": "jest",
+    "check": "npm run list && npm run type",
+    "jest:coverage": "jest --coverage && cat coverage/lcov.info | coveralls",
+    "test": "npm run check && npm run jest:coverage",
     "favicon": "curl https://sugarshin.net/favicon.ico > build/favicon.ico",
     "clean:build": "if [ -d build ]; then rm -rf build; fi",
     "preghpages": "npm run clean:build; mkdir -p build && npm run favicon",
     "ghpages": "NODE_ENV=production webpack --progress",
     "postghpages": "gh-pages -x -m 'Update [ci skip]' -d build -r https://github.com/sugarshin/draft-js-checkable-list-item.git",
-    "prepublish": "npm test && npm run compile"
+    "prepublish": "npm run check && npm run jest && npm run compile"
   },
   "repository": {
     "type": "git",
@@ -56,6 +58,7 @@
     "babel-polyfill": "^6.16.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
+    "coveralls": "^2.11.14",
     "css-loader": "^0.25.0",
     "draft-js": "^0.9.1",
     "eslint": "^3.9.0",
