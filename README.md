@@ -1,7 +1,7 @@
 # draft-js-checkable-list-item
 
-[![CircleCI](https://circleci.com/gh/sugarshin/draft-js-checkable-list-item/tree/master.svg?style=svg&circle-token=b4cb74ab6a5a470fd7a6752d755ecb271db448e5)](https://circleci.com/gh/sugarshin/draft-js-checkable-list-item/tree/master)
-[![Coverage Status](https://coveralls.io/repos/github/sugarshin/draft-js-checkable-list-item/badge.svg?branch=master)](https://coveralls.io/github/sugarshin/draft-js-checkable-list-item?branch=master)
+[![CircleCI][circleci-image]][circleci-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
 
 [![Dependency Status][david-image]][david-url]
 [![Devdependency Status][david-dev-image]][david-dev-url]
@@ -23,27 +23,27 @@ Example
 ```js
 import React, { Component } from 'react'
 import { Editor, EditorState, RichUtils, DefaultDraftBlockRenderMap } from 'draft-js'
-import type ContentBlock from 'draft-js/lib/ContentBlock'
 import {
-  blockRenderMap, blockStyleFn, CheckableListItem, onTab, updateBlockMetadata, CHECKABLE_LIST_ITEM
+  blockRenderMap, CheckableListItem, CheckableListItemBlock, CheckableListItemUtils, CHECKABLE_LIST_ITEM
 } from 'draft-js-checkable-list-item'
 import 'draft-js/dist/Draft.css'
 import 'draft-js-checkable-list-item/lib/CheckableListItem.css'
 
+import type ContentBlock from 'draft-js/lib/ContentBlock'
+
 export default class App extends Component {
-  blockRendererFn = (block: ContentBlock) => {
+  blockRendererFn = (block: ContentBlock): ?CheckableListItemBlock => {
     if (block.getType() === CHECKABLE_LIST_ITEM) {
       return {
         component: CheckableListItem,
         props: {
-          updateMetadataFn: metadata => this.setState({
-            editorState: updateBlockMetadata(this.state.editorState, block.getKey(), metadata)
-          }),
+          onChangeChecked: () => this.changeEditorState(
+            CheckableListItemUtils.toggleChecked(this.state.editorState, block)
+          ),
           checked: !!block.getData().get('checked'),
         },
       }
     }
-    return null
   }
 
   handleTab = (ev: SyntheticKeyboardEvent) => {
@@ -57,7 +57,7 @@ export default class App extends Component {
     }
   }
 
-  changeEditorState = (editorState: EditorState) => this.setState({ editorState })
+  changeEditorState = (editorState: EditorState): void => this.setState({ editorState })
 
   state: { editorState: EditorState }
   state = { editorState: EditorState.createEmpty() }
@@ -75,7 +75,7 @@ export default class App extends Component {
         <Editor
           blockRendererFn={this.blockRendererFn}
           blockRenderMap={DefaultDraftBlockRenderMap.merge(blockRenderMap)}
-          blockStyleFn={blockStyleFn}
+          blockStyleFn={this.blockStyleFn}
           editorState={this.state.editorState}
           onChange={this.changeEditorState}
           onTab={this.handleTab}
@@ -91,9 +91,15 @@ export default class App extends Component {
     }
   }
 
+  blockStyleFn(block: ContentBlock): ?string  {
+    if (block.getType() === CHECKABLE_LIST_ITEM) {
+      return CHECKABLE_LIST_ITEM
+    }
+  }
+
   adjustBlockDepth(ev: SyntheticKeyboardEvent): boolean {
     const { editorState } = this.state
-    const newEditorState = onTab(ev, editorState, 4)
+    const newEditorState = CheckableListItemUtils.onTab(ev, editorState, 4)
     if (newEditorState !== editorState) {
       this.changeEditorState(newEditorState)
       return true
@@ -117,6 +123,10 @@ export default class App extends Component {
 
 © sugarshin
 
+[circleci-image]: https://circleci.com/gh/sugarshin/draft-js-checkable-list-item/tree/master.svg?style=svg&circle-token=b4cb74ab6a5a470fd7a6752d755ecb271db448e5
+[circleci-url]: https://circleci.com/gh/sugarshin/draft-js-checkable-list-item/tree/master
+[coveralls-image]: https://coveralls.io/repos/github/sugarshin/draft-js-checkable-list-item/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/sugarshin/draft-js-checkable-list-item?branch=master
 [npm-image]: https://img.shields.io/npm/v/draft-js-checkable-list-item.svg?style=flat-square
 [npm-url]: https://www.npmjs.org/package/draft-js-checkable-list-item
 [david-image]: https://david-dm.org/sugarshin/draft-js-checkable-list-item.svg?style=flat-square
