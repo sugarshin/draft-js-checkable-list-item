@@ -1,5 +1,5 @@
 import { EditorState, ContentState, ContentBlock } from 'draft-js'
-import updateBlockMetadata from '../src/updateBlockMetadata'
+import updateBlockMetadata from '../src/utils/updateBlockMetadata'
 
 describe('updateBlockMetadata', () => {
   let editorState
