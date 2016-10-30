@@ -8,16 +8,25 @@ import Fork from 'react-ghfork'
 import { Editor, EditorState, RichUtils, DefaultDraftBlockRenderMap } from 'draft-js'
 import type ContentBlock from 'draft-js/lib/ContentBlock'
 import {
-  blockRenderMapForSameWrapperAsUnorderedListItem as blockRenderMap, blockStyleFn, CheckableListItem, onTab, updateBlockMetadata,
+  blockRenderMapForSameWrapperAsUnorderedListItem as blockRenderMap,
+  CheckableListItem, CheckableListItemBlock,
+  CheckableListItemUtils,
   CHECKABLE_LIST_ITEM, UNORDERED_LIST_ITEM, ORDERED_LIST_ITEM
 } from '../src'
 
 export default class App extends Component {
-  blockRendererFn = (block: ContentBlock) => {
+  blockRendererFn = (block: ContentBlock): ?CheckableListItemBlock => {
     if (block.getType() === CHECKABLE_LIST_ITEM) {
-      return this.renderCheckableListItem(block)
+      return {
+        component: CheckableListItem,
+        props: {
+          onChangeChecked: () => this.changeEditorState(
+            CheckableListItemUtils.toggleChecked(this.state.editorState, block)
+          ),
+          checked: !!block.getData().get('checked'),
+        },
+      }
     }
-    return null
   }
 
   handleTab = (ev: SyntheticKeyboardEvent) => {
@@ -31,7 +40,7 @@ export default class App extends Component {
     }
   }
 
-  changeEditorState = (editorState: EditorState) => this.setState({ editorState })
+  changeEditorState = (editorState: EditorState): void => this.setState({ editorState })
 
   state: { editorState: EditorState }
   state = { editorState: EditorState.createEmpty() }
@@ -56,7 +65,7 @@ export default class App extends Component {
             placeholder='Contents in here...'
             blockRendererFn={this.blockRendererFn}
             blockRenderMap={DefaultDraftBlockRenderMap.merge(blockRenderMap)}
-            blockStyleFn={blockStyleFn}
+            blockStyleFn={this.blockStyleFn}
             editorState={this.state.editorState}
             onChange={this.changeEditorState}
             onTab={this.handleTab}
@@ -85,6 +94,12 @@ export default class App extends Component {
     }
   }
 
+  blockStyleFn(block: ContentBlock): ?string  {
+    if (block.getType() === CHECKABLE_LIST_ITEM) {
+      return CHECKABLE_LIST_ITEM
+    }
+  }
+
   getCurrentBlockType(): string {
     const { editorState } = this.state
     const selection = editorState.getSelection()
@@ -94,21 +109,9 @@ export default class App extends Component {
       .getType()
   }
 
-  renderCheckableListItem(block: ContentBlock): object {
-    return {
-      component: CheckableListItem,
-      props: {
-        updateMetadataFn: metadata => this.setState({
-          editorState: updateBlockMetadata(this.state.editorState, block.getKey(), metadata)
-        }),
-        checked: !!block.getData().get('checked'),
-      },
-    }
-  }
-
   adjustBlockDepth(ev: SyntheticKeyboardEvent): boolean {
     const { editorState } = this.state
-    const newEditorState = onTab(ev, editorState, 4)
+    const newEditorState = CheckableListItemUtils.onTab(ev, editorState, 4)
     if (newEditorState !== editorState) {
       this.changeEditorState(newEditorState)
       return true

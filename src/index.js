@@ -1,7 +1,9 @@
-export { default as blockRenderMap } from './blockRenderMap'
-export * from './blockRenderMap'
-export { default as blockStyleFn } from './blockStyleFn'
-export { default as CheckableListItem } from './CheckableListItem'
-export { default as onTab } from './onTab'
-export { default as updateBlockMetadata } from './updateBlockMetadata'
+export {
+  default as blockRenderMap,
+  blockRenderMapForSameWrapperAsUnorderedListItem,
+  WRAPPER
+} from './blockRenderMap'
+export { default as CheckableListItem, CheckableListItemBlock } from './CheckableListItem'
+export { default as CheckableListItemUtils } from './CheckableListItemUtils'
+export { default as updateBlockMetadata } from './utils/updateBlockMetadata'
 export * from './constants'

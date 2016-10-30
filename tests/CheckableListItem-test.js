@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { shallow } from 'enzyme'
 import ContentBlock from 'draft-js/lib/ContentBlock'
+import { shallow } from 'enzyme'
 import CheckableListItem from '../src/CheckableListItem'
 import { CHECKABLE_LIST_ITEM } from '../src/constants'
 

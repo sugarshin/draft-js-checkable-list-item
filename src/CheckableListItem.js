@@ -3,32 +3,27 @@ import { EditorBlock } from 'draft-js'
 
 export type Props = {
   offsetKey: string,
-  blockProps: { updateMetadataFn: func, checked: boolean },
+  blockProps: { onChangeChecked: func, checked: boolean },
 }
 
 export default class CheckableListItem extends Component {
   props: Props
 
-  toggleChecked = () => {
-    const { blockProps: { updateMetadataFn, checked } } = this.props
-    updateMetadataFn({ checked: !checked })
-  }
-
   render() {
-    const { offsetKey, blockProps: { checked } } = this.props
+    const { offsetKey, blockProps: { onChangeChecked, checked } } = this.props
     return (
       <div
-        className='checkable-list-item'
+        className={`checkable-list-item-block${checked ? ' is-checked' : ''}`}
         data-offset-key={offsetKey}
       >
         <div
-          className={`checkable-list-item__checkbox${checked ? ' is-checked' : ''}`}
-          contentEditable='false'
+          className='checkable-list-item-block__checkbox'
+          contentEditable={false}
           suppressContentEditableWarning
         >
-          <input type='checkbox' checked={checked} onChange={this.toggleChecked} />
+          <input type='checkbox' checked={checked} onChange={onChangeChecked} />
         </div>
-        <div className='checkable-list-item__text'>
+        <div className='checkable-list-item-block__text'>
           <EditorBlock {...this.props} />
         </div>
       </div>
