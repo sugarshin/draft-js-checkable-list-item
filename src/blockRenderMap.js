@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from 'react'
 import { Map } from 'immutable'
 import { CHECKABLE_LIST_ITEM, UNORDERED_LIST_ITEM } from './constants'

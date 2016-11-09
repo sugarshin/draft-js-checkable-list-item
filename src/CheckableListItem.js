@@ -1,9 +1,11 @@
+/* @flow */
+
 import React, { Component } from 'react'
 import { EditorBlock } from 'draft-js'
 
 export type Props = {
   offsetKey: string,
-  blockProps: { onChangeChecked: func, checked: boolean },
+  blockProps: { onChangeChecked: () => void, checked: boolean },
 }
 
 export default class CheckableListItem extends Component {

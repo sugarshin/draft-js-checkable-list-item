@@ -1,11 +1,14 @@
+/* @flow */
+
 import EditorState from 'draft-js/lib/EditorState'
 import adjustBlockDepthForContentState from 'draft-js/lib/adjustBlockDepthForContentState'
 import updateBlockMetadata from './utils/updateBlockMetadata'
 import { CHECKABLE_LIST_ITEM, UNORDERED_LIST_ITEM, ORDERED_LIST_ITEM } from './constants'
+import CheckableListItem from './CheckableListItem'
 
 import type ContentBlock from 'draft-js/lib/ContentBlock'
 
-export type CheckableListItemBlock = { component: CheckableListItem, props: object }
+export type CheckableListItemBlock = { component: CheckableListItem, props: Object }
 
 export default class CheckableListItemUtils {
   static toggleChecked(editorState: EditorState, block: ContentBlock): EditorState {
