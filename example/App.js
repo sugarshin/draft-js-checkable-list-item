@@ -1,3 +1,5 @@
+/* @flow */
+
 import 'react-ghfork/gh-fork-ribbon.ie.css'
 import 'react-ghfork/gh-fork-ribbon.css'
 import 'draft-js/dist/Draft.css'
@@ -15,6 +17,9 @@ import {
 } from '../src'
 
 export default class App extends Component {
+  editor: Editor
+  state: { editorState: EditorState }
+
   blockRendererFn = (block: ContentBlock): ?CheckableListItemBlock => {
     if (block.getType() === CHECKABLE_LIST_ITEM) {
       return {
@@ -29,7 +34,7 @@ export default class App extends Component {
     }
   }
 
-  handleTab = (ev: SyntheticKeyboardEvent) => {
+  handleTab = (ev: SyntheticKeyboardEvent): ?boolean => {
     if (this.adjustBlockDepth(ev)) {
       return true
     }
@@ -42,12 +47,7 @@ export default class App extends Component {
 
   changeEditorState = (editorState: EditorState): void => this.setState({ editorState })
 
-  state: { editorState: EditorState }
   state = { editorState: EditorState.createEmpty() }
-
-  constructor(props) {
-    super(props)
-  }
 
   render() {
     return (
@@ -79,14 +79,14 @@ export default class App extends Component {
     this.changeEditorState(RichUtils.toggleBlockType(this.state.editorState, type))
   }
 
-  createMouseDownHandler(type: string): func {
+  createMouseDownHandler(type: string): Function {
     return (ev: SyntheticEvent) => {
       ev.preventDefault()
       this.toggleBlockType(type)
     }
   }
 
-  getStyle(type: string): object {
+  getStyle(type: string): Object {
     return {
       cursor: 'pointer',
       margin: '0 1em 0 0',
@@ -94,7 +94,7 @@ export default class App extends Component {
     }
   }
 
-  blockStyleFn(block: ContentBlock): ?string  {
+  blockStyleFn(block: ContentBlock): ?string {
     if (block.getType() === CHECKABLE_LIST_ITEM) {
       return CHECKABLE_LIST_ITEM
     }

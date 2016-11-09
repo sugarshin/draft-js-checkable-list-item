@@ -1,3 +1,5 @@
+/* @flow */
+
 import EditorState from 'draft-js/lib/EditorState'
 
 /**
@@ -11,7 +13,7 @@ import EditorState from 'draft-js/lib/EditorState'
 export default function updateBlockMetadata(
   editorState: EditorState,
   blockKey: string,
-  metadata: object
+  metadata: Object
 ): EditorState {
   const contentState = editorState.getCurrentContent()
   const updatedBlock = contentState.getBlockForKey(blockKey).mergeIn(['data'], metadata)
