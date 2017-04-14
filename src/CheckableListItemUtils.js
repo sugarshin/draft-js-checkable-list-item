@@ -15,7 +15,7 @@ export default class CheckableListItemUtils {
     return updateBlockMetadata(editorState, block.getKey(), { checked: !block.getData().get('checked') })
   }
 
-  // https://github.com/facebook/draft-js/blob/master/src/model/modifier/RichTextEditorUtil.js#L190
+  // https://github.com/facebook/draft-js/blob/0.10-stable/src/model/modifier/RichTextEditorUtil.js#L190
   static onTab(
     event: SyntheticKeyboardEvent,
     editorState: EditorState,
