@@ -1,8 +1,7 @@
 /* @flow */
 
 import EditorState from 'draft-js/lib/EditorState'
-import adjustBlockDepthForContentState from 'draft-js/lib/adjustBlockDepthForContentState'
-import updateBlockMetadata from './utils/updateBlockMetadata'
+import { adjustBlockDepth, mergeBlockDataByKey } from 'draft-js-modifiers'
 import { CHECKABLE_LIST_ITEM, UNORDERED_LIST_ITEM, ORDERED_LIST_ITEM } from './constants'
 import CheckableListItem from './CheckableListItem'
 
@@ -12,7 +11,7 @@ export type CheckableListItemBlock = { component: CheckableListItem, props: Obje
 
 export default class CheckableListItemUtils {
   static toggleChecked(editorState: EditorState, block: ContentBlock): EditorState {
-    return updateBlockMetadata(editorState, block.getKey(), { checked: !block.getData().get('checked') })
+    return mergeBlockDataByKey(editorState, block.getKey(), { checked: !block.getData().get('checked') })
   }
 
   // https://github.com/facebook/draft-js/blob/0.10-stable/src/model/modifier/RichTextEditorUtil.js#L190
@@ -63,17 +62,10 @@ export default class CheckableListItemUtils {
 
     maxDepth = Math.min(blockAbove.getDepth() + 1, maxDepth)
 
-    const withAdjustment = adjustBlockDepthForContentState(
-      content,
-      selection,
+    return adjustBlockDepth(
+      editorState,
       event.shiftKey ? -1 : 1,
       maxDepth
-    )
-
-    return EditorState.push(
-      editorState,
-      withAdjustment,
-      'adjust-depth'
     )
   }
 }

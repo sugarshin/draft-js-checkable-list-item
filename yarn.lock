@@ -1612,6 +1612,13 @@ domutils@1.5.1, domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
+draft-js-modifiers@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/draft-js-modifiers/-/draft-js-modifiers-0.1.2.tgz#0e49d946cdeb4ccb9ba60faff85ff8a62c9e8484"
+  dependencies:
+    draft-js "~0.10.0"
+    immutable "~3.7.4"
+
 draft-js@~0.10.0:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.1.tgz#6f1219d8095729691429ca6fd7a58d2a8be5cb67"
