@@ -9,6 +9,7 @@ import React, { Component } from 'react'
 import Fork from 'react-ghfork'
 import { Editor, EditorState, RichUtils, DefaultDraftBlockRenderMap } from 'draft-js'
 import type ContentBlock from 'draft-js/lib/ContentBlock'
+import type { DraftBlockType } from 'draft-js/lib/DraftBlockType'
 import {
   blockRenderMapForSameWrapperAsUnorderedListItem as blockRenderMap,
   CheckableListItem, CheckableListItemBlock,
@@ -16,9 +17,11 @@ import {
   CHECKABLE_LIST_ITEM, UNORDERED_LIST_ITEM, ORDERED_LIST_ITEM
 } from '../src'
 
-export default class App extends Component {
-  editor: Editor
-  state: { editorState: EditorState }
+type Props = {}
+type State = { editorState: EditorState }
+
+export default class App extends Component<Props, State> {
+  editor: ?Editor
 
   blockRendererFn = (block: ContentBlock): ?CheckableListItemBlock => {
     if (block.getType() === CHECKABLE_LIST_ITEM) {
@@ -34,9 +37,9 @@ export default class App extends Component {
     }
   }
 
-  handleTab = (ev: SyntheticKeyboardEvent): ?boolean => {
+  handleTab = (ev: SyntheticKeyboardEvent<EventTarget>): void => {
     if (this.adjustBlockDepth(ev)) {
-      return true
+      return
     }
     const { editorState } = this.state
     const newEditorState = RichUtils.onTab(ev, editorState, 4)
@@ -59,7 +62,11 @@ export default class App extends Component {
           <span onMouseDown={this.createMouseDownHandler(ORDERED_LIST_ITEM)} style={this.getStyle(ORDERED_LIST_ITEM)}>OL</span>
           <span onMouseDown={this.createMouseDownHandler(CHECKABLE_LIST_ITEM)} style={this.getStyle(CHECKABLE_LIST_ITEM)}>✔</span>
         </div>
-        <div onClick={() => this.editor.focus()}>
+        <div onClick={() => {
+          if (this.editor) {
+            this.editor.focus()
+          }
+        }}>
           <Editor
             ref={c => this.editor = c}
             placeholder='Contents in here...'
@@ -75,12 +82,12 @@ export default class App extends Component {
     )
   }
 
-  toggleBlockType(type: string) {
+  toggleBlockType(type: DraftBlockType) {
     this.changeEditorState(RichUtils.toggleBlockType(this.state.editorState, type))
   }
 
-  createMouseDownHandler(type: string): Function {
-    return (ev: SyntheticEvent) => {
+  createMouseDownHandler(type: DraftBlockType): Function {
+    return (ev: SyntheticEvent<EventTarget>) => {
       ev.preventDefault()
       this.toggleBlockType(type)
     }
@@ -94,10 +101,11 @@ export default class App extends Component {
     }
   }
 
-  blockStyleFn(block: ContentBlock): ?string {
+  blockStyleFn(block: ContentBlock): string {
     if (block.getType() === CHECKABLE_LIST_ITEM) {
       return CHECKABLE_LIST_ITEM
     }
+    return ''
   }
 
   getCurrentBlockType(): string {
@@ -109,7 +117,7 @@ export default class App extends Component {
       .getType()
   }
 
-  adjustBlockDepth(ev: SyntheticKeyboardEvent): boolean {
+  adjustBlockDepth(ev: SyntheticKeyboardEvent<EventTarget>): boolean {
     const { editorState } = this.state
     const newEditorState = CheckableListItemUtils.onTab(ev, editorState, 4)
     if (newEditorState !== editorState) {
