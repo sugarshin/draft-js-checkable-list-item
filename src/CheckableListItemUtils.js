@@ -16,7 +16,7 @@ export default class CheckableListItemUtils {
 
   // https://github.com/facebook/draft-js/blob/0.10-stable/src/model/modifier/RichTextEditorUtil.js#L190
   static onTab(
-    event: SyntheticKeyboardEvent,
+    event: SyntheticKeyboardEvent<EventTarget>,
     editorState: EditorState,
     maxDepth: number
   ): EditorState {

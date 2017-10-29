@@ -1,16 +1,32 @@
 /* @flow */
 
 import React, { Component } from 'react'
-import { EditorBlock } from 'draft-js'
+import { EditorBlock, SelectionState, ContentState, ContentBlock } from 'draft-js'
+import type { DraftDecoratorType } from 'draft-js/lib/DraftDecoratorType'
+import type { List } from 'immutable'
+import type { BidiDirection } from 'fbjs/lib/UnicodeBidiDirection'
 
-export type Props = {
-  offsetKey: string,
-  blockProps: { onChangeChecked: () => void, checked: boolean },
+type BlockProps = {
+  onChangeChecked: () => void,
+  checked: boolean,
 }
 
-export default class CheckableListItem extends Component {
-  props: Props
+type Props = {
+  contentState: ContentState,
+  block: ContentBlock,
+  customStyleMap: Object,
+  customStyleFn: Function,
+  tree: List<any>,
+  selection: SelectionState,
+  decorator: DraftDecoratorType,
+  forceSelection: boolean,
+  direction: BidiDirection,
+  blockStyleFn: Function,
+  offsetKey: string,
+  blockProps: BlockProps,
+}
 
+export default class CheckableListItem extends Component<Props> {
   render() {
     const { offsetKey, blockProps: { onChangeChecked, checked } } = this.props
     return (
