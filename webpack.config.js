@@ -13,7 +13,7 @@ const htmlWebpackPluginConfig = {
 }
 
 const entry = [
-  'babel-polyfill',
+  '@babel/polyfill',
   './example/index.js',
 ]
 

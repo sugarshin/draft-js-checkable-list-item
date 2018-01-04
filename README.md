@@ -4,7 +4,6 @@
 [![Coverage Status][coveralls-image]][coveralls-url]
 
 [![Dependency Status][david-image]][david-url]
-[![Devdependency Status][david-dev-image]][david-dev-url]
 [![npm version][npm-image]][npm-url]
 [![License][license-image]][license-url]
 
@@ -129,7 +128,5 @@ export default class App extends Component {
 [npm-url]: https://www.npmjs.org/package/draft-js-checkable-list-item
 [david-image]: https://david-dm.org/sugarshin/draft-js-checkable-list-item.svg?style=flat-square
 [david-url]: https://david-dm.org/sugarshin/draft-js-checkable-list-item
-[david-dev-image]: https://david-dm.org/sugarshin/draft-js-checkable-list-item/dev-status.svg?style=flat-square
-[david-dev-url]: https://david-dm.org/sugarshin/draft-js-checkable-list-item#info=devDependencies
 [license-image]: https://img.shields.io/:license-mit-blue.svg?style=flat-square
 [license-url]: https://sugarshin.mit-license.org/
