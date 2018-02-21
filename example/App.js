@@ -6,6 +6,7 @@ import 'draft-js/dist/Draft.css'
 import '../src/CheckableListItem.styl'
 import './App.styl'
 import React, { Component } from 'react'
+import { hot } from 'react-hot-loader'
 import Fork from 'react-ghfork'
 import { Editor, EditorState, RichUtils, DefaultDraftBlockRenderMap } from 'draft-js'
 import type ContentBlock from 'draft-js/lib/ContentBlock'
@@ -20,7 +21,7 @@ import {
 type Props = {}
 type State = { editorState: EditorState }
 
-export default class App extends Component<Props, State> {
+class App extends Component<Props, State> {
   editor: ?Editor
 
   blockRendererFn = (block: ContentBlock): ?CheckableListItemBlock => {
@@ -127,3 +128,5 @@ export default class App extends Component<Props, State> {
     return false
   }
 }
+
+export default hot(module)(App)
