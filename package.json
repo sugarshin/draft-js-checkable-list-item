@@ -42,12 +42,12 @@
   "homepage": "https://github.com/sugarshin/draft-js-checkable-list-item#readme",
   "peerDependencies": {
     "draft-js": "~0.10.0 || ~0.9.0",
-    "immutable": "~3.7.4",
     "react": "^16.0.0 || ^15.0.0 || ~0.14.0",
     "react-dom": "^16.0.0 || ^15.0.0 || ~0.14.0"
   },
   "dependencies": {
-    "draft-js-modifiers": "~0.2.0"
+    "draft-js-modifiers": "~0.2.0",
+    "immutable": "~3.7.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.36",
@@ -73,7 +73,6 @@
     "flow-bin": "~0.62.0",
     "gh-pages": "^1.1.0",
     "html-webpack-plugin": "^2.30.1",
-    "immutable": "~3.7.4",
     "jest": "^22.0.4",
     "raf": "^3.4.0",
     "react": "^16.2.0",
