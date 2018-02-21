@@ -1,6 +1,6 @@
 {
   "name": "draft-js-checkable-list-item",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Checkable list item for Draft.js",
   "main": "lib/index.js",
   "files": [
