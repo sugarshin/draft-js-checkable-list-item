@@ -31,12 +31,8 @@ if (docs) {
     new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false, screw_ie8: true } })
   )
 } else {
-  entry.unshift(
-    `webpack-dev-server/client?http://localhost:${PORT}`,
-    'webpack/hot/only-dev-server',
-    'react-hot-loader/patch'
-  )
   plugins.push(
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   )
 }
