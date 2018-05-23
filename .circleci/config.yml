@@ -38,5 +38,6 @@ jobs:
       - deploy:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              npm run ghpages
+              npm run build
+              npm run deploy
             fi
