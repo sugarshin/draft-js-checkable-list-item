@@ -35,8 +35,7 @@
     "clean:build": "if [ -d build ]; then rm -rf build; fi",
     "prebuild": "npm run clean:build; mkdir -p build && npm run favicon",
     "build": "NODE_ENV=production webpack",
-    "deploy": "/bin/bash scripts/deploy.sh",
-    "prepublishOnly": "npm run check && npm run jest && npm run compile"
+    "deploy": "/bin/bash scripts/deploy.sh"
   },
   "repository": {
     "type": "git",
