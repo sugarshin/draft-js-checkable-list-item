@@ -1,43 +1,86 @@
 version: 2
-jobs:
-  build:
-    working_directory: ~/workspace
+
+references:
+  defaults: &defaults
     docker:
       - image: circleci/node:8.9.4
+    working_directory: ~/draft-js-checkable-list-item
+  restore_yarn_cache: &restore_yarn_cache
+    name: Restoring Cache - yarn
+    keys:
+      - comuque-frontend-yarn-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - comuque-frontend-yarn-v1-{{ .Branch }}-
+  save_yarn_cache: &save_yarn_cache
+    key: comuque-frontend-yarn-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+    paths:
+      - ~/.cache/yarn
+      - ./node_modules
+  system_information: &system_information
+    name: System information
+    command: |
+      echo "Node.js $(node -v)"
+      echo "npm $(npm -v)"
+      echo "Yarn v$(yarn --version)"
+
+jobs:
+  test:
+    <<: *defaults
     steps:
       - checkout
-      - run:
-          name: Configure Git
-          command: |
-            git config --global user.name 'CircleCI'
-            git config --global user.email 's+circleci@sugarshin.net'
-      - restore_cache:
-          name: Restoring Cache - dependencies
-          keys:
-            - v1-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v1-dependencies-
-      - run:
-          name: System information
-          command: |
-            echo "Node.js $(node -v)"
-            echo "npm $(npm -v)"
-            echo "Yarn v$(yarn --version)"
+      - restore_cache: *restore_yarn_cache
+      - run: *system_information
       - run:
           name: Install dependencies
           command: yarn
+      - run:
+          name: ESLint
+          command: yarn run lint
       - run:
           name: Tests
           command: |
             npm test
             npm run coverage:report
-      - save_cache:
-          paths:
-            - ~/workspace/node_modules
-            - ~/.cache/yarn/
-          key: v1-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      - deploy:
+      - save_cache: *save_yarn_cache
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache: *restore_yarn_cache
+      - run: *system_information
+      - run:
+          name: Build and Deploy to GitHub Pages
           command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              npm run build
-              npm run deploy
-            fi
+            npm run build
+            npm run deploy
+  publish:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache: *restore_yarn_cache
+      - run: *system_information
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" >> ~/.npmrc
+      - run:
+          name: Compile and Publish package to npm and tagging
+          command: |
+            npm run compile
+            /bin/bash .circleci/publish-and-tagging.sh
+
+workflows:
+  version: 2
+  test_deploy_publish:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
+      - publish:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
