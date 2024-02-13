@@ -9,6 +9,7 @@ import type { BidiDirection } from 'fbjs/lib/UnicodeBidiDirection'
 type BlockProps = {
   onChangeChecked: () => void,
   checked: boolean,
+  disabled: boolean,
 }
 
 type Props = {
@@ -28,7 +29,7 @@ type Props = {
 
 export default class CheckableListItem extends Component<Props> {
   render() {
-    const { offsetKey, blockProps: { onChangeChecked, checked } } = this.props
+    const { offsetKey, blockProps: { onChangeChecked, checked, disabled } } = this.props
     return (
       <div
         className={`checkable-list-item-block${checked ? ' is-checked' : ''}`}
@@ -39,7 +40,7 @@ export default class CheckableListItem extends Component<Props> {
           contentEditable={false}
           suppressContentEditableWarning
         >
-          <input type='checkbox' checked={checked} onChange={onChangeChecked} />
+          <input type='checkbox' checked={checked} disabled={disabled} onChange={onChangeChecked} />
         </div>
         <div className='checkable-list-item-block__text'>
           <EditorBlock {...this.props} />
